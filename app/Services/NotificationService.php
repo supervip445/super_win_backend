@@ -278,20 +278,6 @@ class NotificationService
         );
     }
 
-    /**
-     * Send notification for new donation
-     */
-    public function notifyNewDonation($donation)
-    {
-        return $this->sendNotification(
-            'donation',
-            'လှူဒါန်းမှု အသစ်',
-            $donation->donor_name . ' - ' . number_format($donation->amount) . ' MMK',
-            '/donations',
-            ['donation_id' => $donation->id]
-        );
-    }
-
     // chat push noti
     public function ChatPushNoti()
     {

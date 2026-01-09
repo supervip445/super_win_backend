@@ -27,7 +27,6 @@ const Navbar = () => {
   const navLinks = [
     { to: '/', label: 'Home', icon: '🏠' },
     { to: '/posts', label: 'Posts', icon: '📝' },
-    { to: '/donations', label: 'Donations', icon: '💰' },
   ];
 
   return (

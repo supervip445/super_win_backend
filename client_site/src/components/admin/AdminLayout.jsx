@@ -19,7 +19,6 @@ const AdminLayout = ({ children }) => {
     { path: '/admin/banner-texts', label: 'Banner Texts', icon: '📢' },
     { path: '/admin/posts', label: 'Posts', icon: '📝' },
     { path: '/admin/categories', label: 'Categories', icon: '📁' },
-    { path: '/admin/donations', label: 'Donations', icon: '💰' },
     { path: '/admin/contacts', label: 'Contacts', icon: '📧' },
     { path: '/admin/chat', label: 'User Chat', icon: '💬' },
     { path: '/admin/profile', label: 'Profile', icon: '👤' },

@@ -5,9 +5,6 @@ export const publicService = {
   getPosts: () => api.get('/public/posts'),
   getPost: (id) => api.get(`/public/posts/${id}`),
 
-  // Donations
-  getDonations: () => api.get('/public/donations'),
-
   // Likes/Dislikes
   toggleLike: (data) => api.post('/public/likes/toggle', data),
   getLikeCounts: (params) => api.get('/public/likes/counts', { params }),
