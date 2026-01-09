@@ -15,7 +15,7 @@ class View extends Model
     ];
 
     /**
-     * Get the parent viewable model (Post).
+     * Get the parent viewable model (Post) only
      */
     public function viewable(): MorphTo
     {
