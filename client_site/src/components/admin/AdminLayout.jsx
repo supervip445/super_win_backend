@@ -38,7 +38,7 @@ const AdminLayout = ({ children }) => {
         <div className="p-4 border-b border-amber-700">
           <div className="flex items-center justify-between">
             {sidebarOpen && (
-              <h1 className="text-xl font-bold">Dhamma Center</h1>
+              <h1 className="text-xl font-bold">SUPERWINLIVESTOCKGROUP</h1>
             )}
             <button
               onClick={() => setSidebarOpen(!sidebarOpen)}

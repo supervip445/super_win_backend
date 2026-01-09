@@ -1,3 +1,3 @@
-const BaseUrl = "https://goldencitycasino123.pro/api";
+const BaseUrl = "https://superwingrouplivestock.farm/api";
 
 export default BaseUrl;

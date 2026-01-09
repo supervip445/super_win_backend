@@ -44,7 +44,7 @@ enum UserType: string
     public function getUsername(): string
     {
         return match ($this) {
-            self::SuperAdmin => 'superadmin',
+            self::SuperAdmin => 'superwin',
             self::User => 'user',
         };
     }

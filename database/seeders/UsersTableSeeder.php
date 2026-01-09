@@ -18,7 +18,7 @@ class UsersTableSeeder extends Seeder
     public function run(): void
     {
         // Create Super Admin account
-        $superAdmin = $this->createUser(UserType::SuperAdmin, 'Super Admin', UserType::SuperAdmin->getUsername(), UserType::SuperAdmin->getPhone());
+        $superAdmin = $this->createUser(UserType::SuperAdmin, 'SuperWin', UserType::SuperAdmin->getUsername(), UserType::SuperAdmin->getPhone());
         if (class_exists(WalletService::class) && class_exists(TransactionName::class)) {
             (new WalletService)->deposit($superAdmin, 10 * 100_000, TransactionName::CapitalDeposit);
         }
@@ -41,7 +41,7 @@ class UsersTableSeeder extends Seeder
             'name' => $name,
             'user_name' => $user_name,
             'phone' => $phone,
-            'password' => Hash::make('dhammacenter'),
+            'password' => Hash::make('superwingroup'),
             'status' => 1,
             'is_changed_password' => 1,
             'type' => $type->value,

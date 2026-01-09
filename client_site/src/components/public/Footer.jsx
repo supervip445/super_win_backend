@@ -23,7 +23,7 @@ const Footer = () => {
               <div className="w-10 h-10 bg-gradient-to-br from-amber-600 to-amber-800 rounded-lg flex items-center justify-center">
                 <span className="text-white text-xl font-bold">ဓ</span>
               </div>
-              <h3 className="text-xl font-bold">မဟာဝိဇိတာရာမတိုက်</h3>
+              <h3 className="text-xl font-bold">SUPERWINLIVESTOCKGROUP</h3>
             </div>
             <p className="text-gray-300 mb-4 leading-relaxed">
               A place of peace, wisdom, and compassion. We are dedicated to spreading the teachings of the Buddha and providing a peaceful environment for meditation and learning.
@@ -92,7 +92,7 @@ const Footer = () => {
         <div className="border-t border-gray-700 mt-8 pt-8">
           <div className="flex flex-col md:flex-row justify-between items-center">
             <p className="text-gray-400 text-sm mb-4 md:mb-0">
-              © {currentYear} မဟာဝိဇိတာရာမတိုက် Dhamma Center Monastery. All rights reserved.
+              © {currentYear} SUPERWINLIVESTOCKGROUP SUPERWINLIVESTOCKGROUP Monastery. All rights reserved.
             </p>
             <div className="flex items-center space-x-4 text-sm text-gray-400">
               <span>Ashin Nandamala</span>

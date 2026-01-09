@@ -77,7 +77,7 @@ class PermissionsTableSeeder extends Seeder
                 'updated_at' => now(),
             ],
 
-            // Dhamma Center Management
+            // SUPERWINLIVESTOCKGROUP Management
             [
                 'title' => 'center_view',
                 'created_at' => now(),

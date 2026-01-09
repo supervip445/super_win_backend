@@ -21,7 +21,7 @@ class DatabaseSeeder extends Seeder
             RoleUserTableSeeder::class,
             PaymentTypeTableSeeder::class,
             UserPaymentTableSeeder::class,
-            // Dhamma Center Seeders
+            // SUPERWINLIVESTOCKGROUP Seeders
             CategorySeeder::class,
             PostSeeder::class,
             //DhammaSeeder::class,

@@ -21,7 +21,7 @@ class RolesTableSeeder extends Seeder
             ],
             [
                 'title' => 'User',
-                'description' => 'Regular user access for dhamma center members',
+                'description' => 'Regular user access for SUPERWINLIVESTOCKGROUP members',
                 'created_at' => now(),
                 'updated_at' => now(),
             ],

@@ -66,7 +66,7 @@ const Sidebar = () => {
                 <span className="text-white text-xl font-bold">ဓ</span>
               </div>
               <div>
-                <h3 className="font-bold text-gray-800">Dhamma Center</h3>
+                <h3 className="font-bold text-gray-800">SUPERWINLIVESTOCKGROUP</h3>
                 <p className="text-xs text-gray-500">Navigation</p>
               </div>
             </div>

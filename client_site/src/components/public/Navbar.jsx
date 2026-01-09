@@ -42,12 +42,12 @@ const Navbar = () => {
             <Link to="/" className="flex items-center space-x-3 hover:opacity-80 transition-opacity">
               <img
                 src={logoImage}
-                alt="မဟာဝိဇိတာရာမတိုက် Dhamma Center Logo"
+                alt="SUPERWINLIVESTOCKGROUP SUPERWINLIVESTOCKGROUP Logo"
                 className="h-12 w-12 md:h-14 md:w-14 object-contain rounded-full"
               />
               <div className="hidden sm:block">
-                <span className="text-lg md:text-xl font-bold text-gray-800 block">မဟာဝိဇိတာရာမတိုက်</span>
-                <span className="text-xs md:text-sm text-gray-600">မဟာဝိဇိတာရာမတိုက်</span>
+                <span className="text-lg md:text-xl font-bold text-gray-800 block">SUPERWINLIVESTOCKGROUP</span>
+                <span className="text-xs md:text-sm text-gray-600">SUPERWINLIVESTOCKGROUP</span>
               </div>
             </Link>
 
