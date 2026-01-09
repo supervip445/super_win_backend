@@ -38,7 +38,7 @@ const Login = () => {
       <div className="max-w-md w-full bg-white rounded-2xl shadow-xl p-8">
         <div className="text-center mb-8">
           <h1 className="text-3xl font-bold text-amber-800 mb-2">Admin Login</h1>
-          <p className="text-gray-600">ပါရာယန ဓမ္မစင်တာကျောင်းတိုက်</p>
+          <p className="text-gray-600">SUPERWINLIVESTOCKGROUP</p>
         </div>
 
         {error && (
