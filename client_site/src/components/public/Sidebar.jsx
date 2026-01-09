@@ -10,6 +10,7 @@ const Sidebar = () => {
   const sidebarLinks = [
     { to: '/', label: 'Home', icon: '🏠' },
     { to: '/posts', label: 'Posts', icon: '📝' },
+    { to: '/pig-vaccines', label: 'Pig Vaccines', icon: '💉' },
   ];
 
   return (

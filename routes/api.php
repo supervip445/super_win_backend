@@ -16,6 +16,8 @@ use App\Http\Controllers\Admin\BannerTextController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\ViewController;
 use App\Http\Controllers\Admin\AdminChatController;
+use App\Http\Controllers\Admin\PigVaccineController;
+use App\Http\Controllers\Public\PublicPigVaccineController;
 use App\Http\Controllers\Api\V1\Chat\AdminToUserChatController;
 
 /*
@@ -51,6 +53,10 @@ Route::prefix('public')->group(function () {
     // Banners
     Route::get('/banners', [PublicBannerController::class, 'getBanners']);
     Route::get('/banner-texts', [PublicBannerController::class, 'getBannerTexts']);
+    
+    // Pig Vaccines
+    Route::get('/pig-vaccines', [PublicPigVaccineController::class, 'index']);
+    Route::get('/pig-vaccines/{id}', [PublicPigVaccineController::class, 'show']);
     
     // Public User Authentication
     Route::post('/register', [PublicAuthController::class, 'register']);
@@ -94,6 +100,9 @@ Route::prefix('admin')->group(function () {
         
         // Banner Texts
         Route::apiResource('banner-texts', BannerTextController::class);
+        
+        // Pig Vaccines
+        Route::apiResource('pig-vaccines', PigVaccineController::class);
         
         // Users (for teachers dropdown)
         Route::get('/users', [UserController::class, 'index']);

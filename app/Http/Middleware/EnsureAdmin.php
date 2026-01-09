@@ -24,7 +24,7 @@ class EnsureAdmin
             ], 403);
         }
 
-        if ($user->status !== 1) {
+        if ((int)$user->status !== 1) {
             return response()->json([
                 'message' => 'Your account is inactive. Please contact administrator.',
             ], 403);

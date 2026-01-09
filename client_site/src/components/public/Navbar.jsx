@@ -3,7 +3,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import MarqueeText from './MarqueeText';
 import NotificationBell from './NotificationBell';
 import { publicAuthService } from '../../services/publicAuthService';
-import logoImage from '../../assets/logo.jpg';
+import logoImage from '../../assets/logo.png';
 
 const Navbar = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -27,6 +27,7 @@ const Navbar = () => {
   const navLinks = [
     { to: '/', label: 'Home', icon: '🏠' },
     { to: '/posts', label: 'Posts', icon: '📝' },
+    { to: '/pig-vaccines', label: 'Pig Vaccines', icon: '💉' },
   ];
 
   return (

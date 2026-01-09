@@ -37,7 +37,7 @@ class AdminAuthController extends Controller
         }
 
         // Check if user is active
-        if ($user->status !== 1) {
+        if ((int)$user->status !== 1) {
             return response()->json([
                 'message' => 'Your account is inactive. Please contact administrator.',
             ], 403);

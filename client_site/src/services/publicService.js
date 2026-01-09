@@ -16,5 +16,9 @@ export const publicService = {
   // Banners
   getBanners: () => api.get('/public/banners'),
   getBannerTexts: () => api.get('/public/banner-texts'),
+
+  // Pig Vaccines
+  getPigVaccines: (params) => api.get('/public/pig-vaccines', { params }),
+  getPigVaccine: (id) => api.get(`/public/pig-vaccines/${id}`),
 };
 
