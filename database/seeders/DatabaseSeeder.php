@@ -24,17 +24,17 @@ class DatabaseSeeder extends Seeder
             // Dhamma Center Seeders
             CategorySeeder::class,
             PostSeeder::class,
-            DhammaSeeder::class,
-            DonationSeeder::class,
-            BiographySeeder::class,
+            //DhammaSeeder::class,
+            //DonationSeeder::class,
+            //BiographySeeder::class,
             //MonasterySeeder::class,
-            MonasteryBuildingDonationSeeder::class,
+            //MonasteryBuildingDonationSeeder::class,
             ContactSeeder::class,
             BannerSeeder::class,
             BannerTextSeeder::class,
-            AcademicYearsTableSeeder::class,
-            ClassesTableSeeder::class,
-            SubjectsTableSeeder::class,
+            //AcademicYearsTableSeeder::class,
+            //ClassesTableSeeder::class,
+            //SubjectsTableSeeder::class,
         ]);
 
     }
