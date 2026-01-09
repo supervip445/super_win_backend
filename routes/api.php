@@ -18,6 +18,7 @@ use App\Http\Controllers\Admin\ViewController;
 use App\Http\Controllers\Admin\AdminChatController;
 use App\Http\Controllers\Admin\PigVaccineController;
 use App\Http\Controllers\Public\PublicPigVaccineController;
+use App\Http\Controllers\Public\PublicContactController;
 use App\Http\Controllers\Api\V1\Chat\AdminToUserChatController;
 
 /*
@@ -58,6 +59,9 @@ Route::prefix('public')->group(function () {
     Route::get('/pig-vaccines', [PublicPigVaccineController::class, 'index']);
     Route::get('/pig-vaccines/{id}', [PublicPigVaccineController::class, 'show']);
     
+    // Contact Form
+    Route::post('/contact', [PublicContactController::class, 'store']);
+    
     // Public User Authentication
     Route::post('/register', [PublicAuthController::class, 'register']);
     Route::post('/login', [PublicAuthController::class, 'login']);
@@ -92,7 +96,7 @@ Route::prefix('admin')->group(function () {
         Route::apiResource('posts', PostController::class);
         
         // Contacts
-        Route::apiResource('contacts', ContactController::class)->except(['store']);
+        Route::apiResource('contacts', ContactController::class);
         Route::post('/contacts/{id}/read', [ContactController::class, 'markAsRead']);
         
         // Banners

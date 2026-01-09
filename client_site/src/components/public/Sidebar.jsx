@@ -11,6 +11,7 @@ const Sidebar = () => {
     { to: '/', label: 'Home', icon: '🏠' },
     { to: '/posts', label: 'Posts', icon: '📝' },
     { to: '/pig-vaccines', label: 'Pig Vaccines', icon: '💉' },
+    { to: '/contact', label: 'Contact', icon: '📧' },
   ];
 
   return (
@@ -64,7 +65,7 @@ const Sidebar = () => {
           <div className="p-6 border-b border-gray-200">
             <div className="flex items-center space-x-3">
               <div className="w-10 h-10 bg-gradient-to-br from-amber-600 to-amber-800 rounded-lg flex items-center justify-center">
-                <span className="text-white text-xl font-bold">ဓ</span>
+                <span className="text-white text-xl font-bold">🐷</span>
               </div>
               <div>
                 <h3 className="font-bold text-gray-800">SUPERWINLIVESTOCKGROUP</h3>
@@ -98,10 +99,10 @@ const Sidebar = () => {
             <div className="mt-8 p-4 bg-gradient-to-br from-amber-50 to-orange-50 rounded-lg">
               <h4 className="font-semibold text-gray-800 mb-2">Quick Info</h4>
               <p className="text-sm text-gray-600 mb-2">
-                <strong>Meditation:</strong> Daily 6:00 AM - 7:00 AM
+                <strong>Business Hours:</strong> Mon - Sat 8:00 AM - 6:00 PM
               </p>
               <p className="text-sm text-gray-600">
-                <strong>Evening:</strong> 6:00 PM - 7:00 PM
+                <strong>Contact:</strong> Available for inquiries
               </p>
             </div>
           </nav>

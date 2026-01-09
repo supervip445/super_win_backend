@@ -303,7 +303,7 @@ const AdminChat = () => {
                 <div
                   ref={messagesContainerRef}
                   onScroll={handleScroll}
-                  className="flex-1 overflow-y-auto p-4 space-y-3 bg-gray-50"
+                  className="flex-1 overflow-y-auto p-4 space-y-1 bg-[#efeae2]"
                   style={{ scrollbarWidth: 'thin' }}
                 >
                   {isLoadingMore && (
@@ -330,30 +330,69 @@ const AdminChat = () => {
                       </div>
                     </div>
                   ) : (
-                    messages.map((message) => {
+                    messages.map((message, index) => {
                       const isOwnMessage = message.sender_id === user?.id;
+                      const isUserMessage = message.sender_type === 'player' || !isOwnMessage;
+                      const prevMessage = index > 0 ? messages[index - 1] : null;
+                      const timeDiff = prevMessage ? (new Date(message.created_at).getTime() - new Date(prevMessage.created_at).getTime()) : 300001;
+                      const showAvatar = isUserMessage && (!prevMessage || prevMessage.sender_id !== message.sender_id || timeDiff > 300000);
+                      
                       return (
                         <div
                           key={message.id}
-                          className={`flex ${isOwnMessage ? 'justify-end' : 'justify-start'}`}
+                          className={`flex items-end gap-2 ${isOwnMessage ? 'justify-end flex-row-reverse' : 'justify-start'}`}
                         >
-                          <div
-                            className={`max-w-[75%] rounded-2xl px-4 py-2 ${
-                              isOwnMessage
-                                ? 'bg-gradient-to-r from-amber-400 to-orange-400 text-black'
-                                : 'bg-white text-gray-800 border border-gray-200'
-                            }`}
-                          >
-                            {!isOwnMessage && message.sender && (
-                              <p className="text-xs font-semibold mb-1 opacity-80">
-                                {message.sender.name || message.sender.user_name}
+                          {/* Avatar for user messages */}
+                          {isUserMessage && (
+                            <div className={`w-8 h-8 rounded-full bg-gradient-to-r from-green-500 to-green-600 flex items-center justify-center flex-shrink-0 ${showAvatar ? 'visible' : 'invisible'}`}>
+                              <span className="text-white text-xs font-bold">
+                                {(message.sender?.name || message.sender?.user_name || 'U')?.charAt(0).toUpperCase()}
+                              </span>
+                            </div>
+                          )}
+                          
+                          {/* Message Bubble */}
+                          <div className={`flex flex-col ${isOwnMessage ? 'items-end' : 'items-start'} max-w-[75%]`}>
+                            {/* Sender name for user messages (only first message in group) */}
+                            {isUserMessage && showAvatar && message.sender && (
+                              <p className="text-xs text-gray-600 mb-1 px-1 font-medium">
+                                {message.sender.name || message.sender.user_name || 'User'}
                               </p>
                             )}
-                            <p className="text-sm whitespace-pre-wrap break-words">{message.message}</p>
-                            <p className={`text-xs mt-1 ${isOwnMessage ? 'text-black/60' : 'text-gray-400'}`}>
-                              {formatTime(message.created_at)}
-                            </p>
+                            
+                            {/* Message bubble with tail */}
+                            <div
+                              className={`relative px-4 py-2 rounded-2xl ${
+                                isOwnMessage
+                                  ? 'bg-[#dcf8c6] text-gray-900 rounded-br-sm shadow-sm'
+                                  : 'bg-white text-gray-900 rounded-bl-sm shadow-sm'
+                              }`}
+                              style={{
+                                borderRadius: isOwnMessage 
+                                  ? '18px 18px 4px 18px' 
+                                  : '18px 18px 18px 4px'
+                              }}
+                            >
+                              <p className="text-sm whitespace-pre-wrap break-words leading-relaxed">
+                                {message.message}
+                              </p>
+                              
+                              {/* Timestamp */}
+                              <div className={`flex justify-end mt-1 ${isOwnMessage ? 'text-gray-600' : 'text-gray-500'}`}>
+                                <span className="text-[10px]">
+                                  {formatTime(message.created_at)}
+                                </span>
+                                {isOwnMessage && (
+                                  <svg className="ml-1 w-3 h-3" fill="currentColor" viewBox="0 0 16 15">
+                                    <path d="M15.01 3.316l-.478-.372a.365.365 0 0 0-.51.063L8.666 9.879a.32.32 0 0 1-.484.033l-.358-.325a.319.319 0 0 0-.484.032l-.378.483a.418.418 0 0 0 .036.541l1.32 1.266c.143.14.361.125.484-.033l6.272-8.175a.366.366 0 0 0-.063-.51z"/>
+                                  </svg>
+                                )}
+                              </div>
+                            </div>
                           </div>
+                          
+                          {/* Spacer for alignment when no avatar */}
+                          {!isUserMessage && <div className="w-8 flex-shrink-0" />}
                         </div>
                       );
                     })
@@ -362,7 +401,7 @@ const AdminChat = () => {
                 </div>
 
                 {/* Input Area */}
-                <form onSubmit={sendMessage} className="p-4 border-t border-gray-200 bg-white">
+                <form onSubmit={sendMessage} className="p-3 border-t border-gray-200 bg-white">
                   <div className="flex items-end gap-2">
                     <textarea
                       value={newMessage}
@@ -377,26 +416,26 @@ const AdminChat = () => {
                           sendMessage(e);
                         }
                       }}
-                      placeholder="Type your message..."
+                      placeholder="Type a message..."
                       rows={1}
                       maxLength={2000}
-                      className="flex-1 bg-gray-50 border border-gray-300 rounded-lg px-4 py-2 resize-none focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent"
+                      className="flex-1 bg-gray-50 border border-gray-300 rounded-lg px-4 py-2.5 resize-none focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent placeholder-gray-400"
                       style={{ minHeight: '44px', maxHeight: '120px' }}
                     />
                     <button
                       type="submit"
                       disabled={!newMessage.trim() || sending}
-                      className="bg-gradient-to-r from-amber-400 to-orange-400 text-black p-3 rounded-lg hover:opacity-90 transition disabled:opacity-50 disabled:cursor-not-allowed flex-shrink-0"
+                      className="bg-[#0084ff] text-white p-3 rounded-lg hover:bg-[#0066cc] transition disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-[#0084ff] flex-shrink-0"
                     >
                       {sending ? (
-                        <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-black"></div>
+                        <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white"></div>
                       ) : (
                         <IoMdSend size={20} />
                       )}
                     </button>
                   </div>
                   {newMessage.length > 0 && (
-                    <p className="text-xs text-gray-500 mt-1 text-right">
+                    <p className="text-xs text-gray-500 mt-1 text-right px-1">
                       {newMessage.length}/2000
                     </p>
                   )}

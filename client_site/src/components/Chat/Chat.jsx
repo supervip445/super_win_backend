@@ -266,21 +266,24 @@ const Chat = ({ isOpen, onClose }) => {
 
   return (
     <div className="fixed inset-0 z-[60] flex items-end sm:items-center justify-center bg-black bg-opacity-50 animate-fadeIn">
-      <div className="bg-gradient-to-br from-[#1a1d3a] to-[#101223] rounded-t-2xl sm:rounded-2xl shadow-2xl w-full sm:w-[400px] h-[calc(100vh-90px)] sm:h-[600px] max-h-[calc(100vh-90px)] sm:max-h-[600px] flex flex-col border border-yellow-400/20 mb-16 sm:mb-0">
+      <div className="bg-[#0b141a] rounded-t-2xl sm:rounded-2xl shadow-2xl w-full sm:w-[400px] h-[calc(100vh-90px)] sm:h-[600px] max-h-[calc(100vh-90px)] sm:max-h-[600px] flex flex-col border border-gray-700/50 mb-16 sm:mb-0">
         {/* Header */}
-        <div className="flex items-center justify-between p-4 border-b border-yellow-400/20 bg-gradient-to-r from-yellow-400/10 to-transparent">
+        <div className="flex items-center justify-between p-4 border-b border-gray-700/50 bg-[#2a2f32]">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-full bg-gradient-to-r from-yellow-400 to-orange-400 flex items-center justify-center">
+            <div className="w-10 h-10 rounded-full bg-gradient-to-r from-blue-500 to-blue-600 flex items-center justify-center">
               <FaUser className="text-white text-lg" />
             </div>
             <div>
               <h3 className="text-white font-bold text-lg">Support Chat</h3>
-              <p className="text-yellow-400 text-xs">Online</p>
+              <p className="text-green-400 text-xs flex items-center gap-1">
+                <span className="w-2 h-2 bg-green-400 rounded-full"></span>
+                Online
+              </p>
             </div>
           </div>
           <button
             onClick={onClose}
-            className="text-gray-400 hover:text-white transition p-2 hover:bg-white/10 rounded-lg"
+            className="text-gray-400 hover:text-white transition p-2 hover:bg-gray-700/50 rounded-lg"
             aria-label="Close chat"
           >
             <IoMdClose size={24} />
@@ -291,11 +294,11 @@ const Chat = ({ isOpen, onClose }) => {
         <div
           ref={messagesContainerRef}
           onScroll={handleScroll}
-          className="flex-1 overflow-y-auto p-4 space-y-3 scroll-smooth"
+          className="flex-1 overflow-y-auto p-4 space-y-1 scroll-smooth bg-[#0b141a]"
           style={{ scrollbarWidth: 'thin' }}
         >
           {isLoadingMore && (
-            <div className="text-center text-yellow-400 text-sm py-2">
+            <div className="text-center text-blue-400 text-sm py-2">
               Loading older messages...
             </div>
           )}
@@ -303,45 +306,89 @@ const Chat = ({ isOpen, onClose }) => {
           {loading && messages.length === 0 ? (
             <div className="flex items-center justify-center h-full">
               <div className="text-center">
-                <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-yellow-400 mx-auto mb-3"></div>
+                <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-blue-400 mx-auto mb-3"></div>
                 <p className="text-gray-400">Loading messages...</p>
               </div>
             </div>
           ) : messages.length === 0 ? (
             <div className="flex items-center justify-center h-full">
               <div className="text-center">
-                <div className="w-16 h-16 rounded-full bg-yellow-400/20 flex items-center justify-center mx-auto mb-3">
-                  <FaUser className="text-yellow-400 text-2xl" />
+                <div className="w-16 h-16 rounded-full bg-blue-500/20 flex items-center justify-center mx-auto mb-3">
+                  <FaUser className="text-blue-400 text-2xl" />
                 </div>
-                <p className="text-gray-400">No messages yet</p>
+                <p className="text-gray-300">No messages yet</p>
                 <p className="text-gray-500 text-sm mt-1">Start a conversation!</p>
               </div>
             </div>
           ) : (
-            messages.map((message) => {
-              const isOwnMessage = message.sender_id === publicUser?.id;
+            messages.map((message, index) => {
+              // User messages: sender_id matches logged-in user
+              const isUserMessage = message.sender_id === publicUser?.id;
+              // Admin messages: not from the logged-in user (either agent type or different sender)
+              const isAdminMessage = !isUserMessage;
+              
+              const prevMessage = index > 0 ? messages[index - 1] : null;
+              const timeDiff = prevMessage ? (new Date(message.created_at).getTime() - new Date(prevMessage.created_at).getTime()) : 300001;
+              const showAvatar = isAdminMessage && (!prevMessage || prevMessage.sender_id !== message.sender_id || timeDiff > 300000);
+              
               return (
                 <div
                   key={message.id}
-                  className={`flex ${isOwnMessage ? 'justify-end' : 'justify-start'}`}
+                  className={`flex items-end gap-2 ${isUserMessage ? 'justify-end flex-row-reverse' : 'justify-start'}`}
                 >
-                  <div
-                    className={`max-w-[75%] rounded-2xl px-4 py-2 ${
-                      isOwnMessage
-                        ? 'bg-gradient-to-r from-yellow-400 to-orange-400 text-black'
-                        : 'bg-[#23243a] text-white'
-                    }`}
-                  >
-                    {!isOwnMessage && message.sender && (
-                      <p className="text-xs font-semibold mb-1 opacity-80">
-                        {message.sender.name || message.sender.user_name}
+                  {/* Avatar for admin messages (LEFT side) */}
+                  {isAdminMessage && (
+                    <div className={`w-8 h-8 rounded-full bg-gradient-to-r from-amber-500 to-orange-500 flex items-center justify-center flex-shrink-0 ${showAvatar ? 'visible' : 'invisible'}`}>
+                      <span className="text-white text-xs font-bold">
+                        {(message.sender?.name || message.sender?.user_name || 'A')?.charAt(0).toUpperCase()}
+                      </span>
+                    </div>
+                  )}
+                  
+                  {/* Message Bubble */}
+                  <div className={`flex flex-col ${isUserMessage ? 'items-end' : 'items-start'} max-w-[75%]`}>
+                    {/* Sender name for admin messages (only first message in group) */}
+                    {isAdminMessage && showAvatar && message.sender && (
+                      <p className="text-xs text-gray-300 mb-1 px-1">
+                        {message.sender.name || message.sender.user_name || 'Admin'}
                       </p>
                     )}
-                    <p className="text-sm whitespace-pre-wrap break-words">{message.message}</p>
-                    <p className={`text-xs mt-1 ${isOwnMessage ? 'text-black/60' : 'text-gray-400'}`}>
-                      {formatTime(message.created_at)}
-                    </p>
+                    
+                    {/* Message bubble with tail */}
+                    {/* User messages: RIGHT side with blue background */}
+                    {/* Admin messages: LEFT side with different background */}
+                    <div
+                      className={`relative px-4 py-2 rounded-2xl ${
+                        isUserMessage
+                          ? 'bg-[#0084ff] text-white rounded-br-sm'
+                          : 'bg-[#2a3942] text-white rounded-bl-sm border border-gray-600/30'
+                      }`}
+                      style={{
+                        borderRadius: isUserMessage 
+                          ? '18px 18px 4px 18px' 
+                          : '18px 18px 18px 4px'
+                      }}
+                    >
+                      <p className="text-sm whitespace-pre-wrap break-words leading-relaxed">
+                        {message.message}
+                      </p>
+                      
+                      {/* Timestamp */}
+                      <div className={`flex justify-end mt-1 ${isUserMessage ? 'text-white/70' : 'text-gray-400'}`}>
+                        <span className="text-[10px]">
+                          {formatTime(message.created_at)}
+                        </span>
+                        {isUserMessage && (
+                          <svg className="ml-1 w-3 h-3" fill="currentColor" viewBox="0 0 16 15">
+                            <path d="M15.01 3.316l-.478-.372a.365.365 0 0 0-.51.063L8.666 9.879a.32.32 0 0 1-.484.033l-.358-.325a.319.319 0 0 0-.484.032l-.378.483a.418.418 0 0 0 .036.541l1.32 1.266c.143.14.361.125.484-.033l6.272-8.175a.366.366 0 0 0-.063-.51z"/>
+                          </svg>
+                        )}
+                      </div>
+                    </div>
                   </div>
+                  
+                  {/* Spacer for alignment when no avatar (for user messages on right) */}
+                  {isUserMessage && <div className="w-8 flex-shrink-0" />}
                 </div>
               );
             })
@@ -350,7 +397,7 @@ const Chat = ({ isOpen, onClose }) => {
         </div>
 
         {/* Input Area */}
-        <form onSubmit={sendMessage} className="p-4 pb-6 sm:pb-4 border-t border-yellow-400/20 bg-[#181A29] flex-shrink-0">
+        <form onSubmit={sendMessage} className="p-3 pb-6 sm:pb-4 border-t border-gray-700/50 bg-[#1e2428] flex-shrink-0">
           <div className="flex items-end gap-2">
             <textarea
               value={newMessage}
@@ -366,27 +413,27 @@ const Chat = ({ isOpen, onClose }) => {
                   sendMessage(e);
                 }
               }}
-              placeholder="Type your message..."
+              placeholder="Type a message..."
               rows={1}
               maxLength={2000}
-              className="flex-1 bg-[#23243a] text-white rounded-lg px-4 py-2 resize-none focus:outline-none focus:ring-2 focus:ring-yellow-400/50 border border-gray-700 overflow-y-auto"
+              className="flex-1 bg-[#2a2f32] text-white rounded-lg px-4 py-2.5 resize-none focus:outline-none focus:ring-2 focus:ring-blue-500/50 border border-gray-600/50 overflow-y-auto placeholder-gray-400"
               style={{ minHeight: '44px', maxHeight: '120px' }}
             />
             <button
               type="submit"
               disabled={!newMessage.trim() || sending}
-              className="bg-gradient-to-r from-yellow-400 to-orange-400 text-black p-3 rounded-lg hover:opacity-90 transition disabled:opacity-50 disabled:cursor-not-allowed flex-shrink-0"
+              className="bg-[#0084ff] text-white p-3 rounded-lg hover:bg-[#0066cc] transition disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-[#0084ff] flex-shrink-0"
               aria-label="Send message"
             >
               {sending ? (
-                <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-black"></div>
+                <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white"></div>
               ) : (
                 <IoMdSend size={20} />
               )}
             </button>
           </div>
           {newMessage.length > 0 && (
-            <p className="text-xs text-gray-500 mt-1 text-right">
+            <p className="text-xs text-gray-500 mt-1 text-right px-1">
               {newMessage.length}/2000
             </p>
           )}

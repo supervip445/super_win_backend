@@ -17,23 +17,59 @@ class ContactController extends Controller
     //     return response()->json(['data' => $contacts]);
     // }
 
-    public function index()
-{
-    $contacts = Contact::latest()
-        ->paginate(10);
+    public function index(Request $request)
+    {
+        $query = Contact::latest();
 
-    return response()->json([
-        'success' => true,
-        'data' => $contacts->items(),
-        'pagination' => [
+        // Search functionality
+        if ($request->has('search') && $request->search) {
+            $search = $request->search;
+            $query->where(function($q) use ($search) {
+                $q->where('name', 'like', "%{$search}%")
+                  ->orWhere('email', 'like', "%{$search}%")
+                  ->orWhere('subject', 'like', "%{$search}%")
+                  ->orWhere('message', 'like', "%{$search}%")
+                  ->orWhere('phone', 'like', "%{$search}%");
+            });
+        }
+
+        // Filter by read status
+        if ($request->has('is_read') && $request->is_read !== null) {
+            $query->where('is_read', $request->is_read === 'true' || $request->is_read === true);
+        }
+
+        $contacts = $query->paginate($request->get('per_page', 20));
+
+        return response()->json([
+            'success' => true,
+            'data' => $contacts->items(),
             'current_page' => $contacts->currentPage(),
+            'last_page' => $contacts->lastPage(),
             'per_page' => $contacts->perPage(),
             'total' => $contacts->total(),
-            'last_page' => $contacts->lastPage(),
-            'has_more_pages' => $contacts->hasMorePages(),
-        ],
-    ]);
-}
+        ]);
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     */
+    public function store(Request $request)
+    {
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|max:255',
+            'phone' => 'nullable|string|max:255',
+            'subject' => 'nullable|string|max:255',
+            'message' => 'required|string',
+        ]);
+
+        $contact = Contact::create($validated);
+
+        return response()->json([
+            'message' => 'Contact created successfully',
+            'data' => $contact,
+        ], 201);
+    }
 
 
     /**
@@ -42,7 +78,10 @@ class ContactController extends Controller
     public function show($id)
     {
         $contact = Contact::findOrFail($id);
-        return response()->json(['data' => $contact]);
+        return response()->json([
+            'success' => true,
+            'data' => $contact,
+        ]);
     }
 
     /**

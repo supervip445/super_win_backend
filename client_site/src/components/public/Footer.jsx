@@ -7,9 +7,11 @@ const Footer = () => {
     quickLinks: [
       { to: '/', label: 'Home' },
       { to: '/posts', label: 'Posts' },
+      { to: '/contact', label: 'Contact' },
     ],
     resources: [
       { to: '/posts', label: 'Latest Posts' },
+      { to: '/pig-vaccines', label: 'Pig Vaccines' },
     ],
   };
 
@@ -21,12 +23,12 @@ const Footer = () => {
           <div className="col-span-1 md:col-span-2">
             <div className="flex items-center space-x-2 mb-4">
               <div className="w-10 h-10 bg-gradient-to-br from-amber-600 to-amber-800 rounded-lg flex items-center justify-center">
-                <span className="text-white text-xl font-bold">ဓ</span>
+                <span className="text-white text-xl font-bold">🐷</span>
               </div>
               <h3 className="text-xl font-bold">SUPERWINLIVESTOCKGROUP</h3>
             </div>
             <p className="text-gray-300 mb-4 leading-relaxed">
-              A place of peace, wisdom, and compassion. We are dedicated to spreading the teachings of the Buddha and providing a peaceful environment for meditation and learning.
+              Your trusted partner in livestock farming. We specialize in high-quality pig and hen feed products, dedicated to supporting farmers with nutritious solutions for healthy and productive livestock. Experience excellence in animal nutrition and farm management.
             </p>
             <div className="flex space-x-4">
               <a
@@ -92,10 +94,10 @@ const Footer = () => {
         <div className="border-t border-gray-700 mt-8 pt-8">
           <div className="flex flex-col md:flex-row justify-between items-center">
             <p className="text-gray-400 text-sm mb-4 md:mb-0">
-              © {currentYear} SUPERWINLIVESTOCKGROUP SUPERWINLIVESTOCKGROUP Monastery. All rights reserved.
+              © {currentYear} SUPERWINLIVESTOCKGROUP. All rights reserved.
             </p>
             <div className="flex items-center space-x-4 text-sm text-gray-400">
-              <span>Ashin Nandamala</span>
+              <span>Livestock Feed Solutions</span>
               <span className="hidden md:inline">•</span>
               <Link to="/admin/login" className="hover:text-amber-400 transition">
                 Admin Login
