@@ -10,23 +10,53 @@ import ChatIcon from '../../components/Chat/ChatIcon';
 const Home = () => {
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [loadingMore, setLoadingMore] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [hasMorePages, setHasMorePages] = useState(false);
+  const [perPage] = useState(6); // Show 6 posts initially, then load more
 
   useEffect(() => {
-    fetchData();
+    fetchData(1, true);
   }, []);
 
-  const fetchData = async () => {
+  const fetchData = async (page = 1, isInitial = false) => {
     try {
-      const postsRes = await publicService.getPosts().catch(err => {
+      if (isInitial) {
+        setLoading(true);
+      } else {
+        setLoadingMore(true);
+      }
+
+      const params = {
+        page: page,
+        per_page: perPage,
+      };
+
+      const postsRes = await publicService.getPosts(params).catch(err => {
         console.error('Error fetching posts:', err);
-        return { data: { data: [] } };
+        return { data: { data: [], has_more_pages: false } };
       });
-      setPosts(postsRes.data?.data?.slice(0, 6) || []);
+
+      if (isInitial) {
+        setPosts(postsRes.data?.data || []);
+      } else {
+        // Append new posts to existing ones
+        setPosts(prevPosts => [...prevPosts, ...(postsRes.data?.data || [])]);
+      }
+
+      setHasMorePages(postsRes.data?.has_more_pages || false);
+      setCurrentPage(postsRes.data?.current_page || page);
     } catch (error) {
       console.error('Error fetching data:', error);
     } finally {
       setLoading(false);
+      setLoadingMore(false);
     }
+  };
+
+  const handleLoadMore = () => {
+    const nextPage = currentPage + 1;
+    fetchData(nextPage, false);
   };
 
   if (loading) {
@@ -118,6 +148,26 @@ const Home = () => {
               );
             })}
           </div>
+
+          {/* Load More Button */}
+          {hasMorePages && (
+            <div className="flex justify-center mt-8">
+              <button
+                onClick={handleLoadMore}
+                disabled={loadingMore}
+                className="bg-amber-600 text-white px-8 py-3 rounded-lg hover:bg-amber-700 transition-all duration-300 font-medium disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
+              >
+                {loadingMore ? (
+                  <>
+                    <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white"></div>
+                    <span>Loading...</span>
+                  </>
+                ) : (
+                  <span>Load More</span>
+                )}
+              </button>
+            </div>
+          )}
         </section>
         </main>
       </div>

@@ -2,7 +2,7 @@ import api from './api';
 
 export const publicService = {
   // Posts
-  getPosts: () => api.get('/public/posts'),
+  getPosts: (params) => api.get('/public/posts', { params }),
   getPost: (id) => api.get(`/public/posts/${id}`),
 
   // Likes/Dislikes

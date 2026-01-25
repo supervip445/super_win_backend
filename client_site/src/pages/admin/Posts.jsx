@@ -15,6 +15,9 @@ const Posts = () => {
   const [viewingPost, setViewingPost] = useState(null);
   const [editingPost, setEditingPost] = useState(null);
   const [selectedPostForViews, setSelectedPostForViews] = useState(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [lastPage, setLastPage] = useState(1);
+  const [total, setTotal] = useState(0);
   const [formData, setFormData] = useState({
     title: '',
     content: '',
@@ -24,16 +27,28 @@ const Posts = () => {
   });
 
   useEffect(() => {
-    fetchPosts();
     fetchCategories();
   }, []);
 
+  useEffect(() => {
+    fetchPosts();
+  }, [currentPage]);
+
   const fetchPosts = async () => {
     try {
-      const response = await postService.getAll();
+      setLoading(true);
+      const params = {
+        page: currentPage,
+        per_page: 10,
+      };
+      const response = await postService.getAll(params);
       setPosts(response.data?.data || []);
+      setCurrentPage(response.data?.current_page || 1);
+      setLastPage(response.data?.last_page || 1);
+      setTotal(response.data?.total || 0);
     } catch (error) {
       console.error('Error fetching posts:', error);
+      alert('Error fetching posts');
     } finally {
       setLoading(false);
     }
@@ -109,6 +124,7 @@ const Posts = () => {
       setShowModal(false);
       resetForm();
       fetchPosts();
+      setCurrentPage(1); // Reset to first page after create/update
     } catch (error) {
       console.error('Error saving post:', error);
       // Show more detailed error message
@@ -209,65 +225,98 @@ const Posts = () => {
             </tr>
           </thead>
           <tbody className="bg-white divide-y divide-gray-200">
-            {posts.map((post) => (
-              <tr key={post.id} className="hover:bg-gray-50">
-                <td className="px-6 py-4">
-                  <div 
-                    className="text-sm font-medium text-gray-900 cursor-pointer hover:text-amber-600 transition"
-                    onClick={() => handleView(post)}
-                    title="Click to view details"
-                  >
-                    {post.title}
-                  </div>
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap">
-                  <span className="text-sm text-gray-500">{post.category?.name || 'N/A'}</span>
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap">
-                  <span
-                    className={`px-2 py-1 text-xs rounded-full ${
-                      post.status === 'published'
-                        ? 'bg-green-100 text-green-800'
-                        : 'bg-gray-100 text-gray-800'
-                    }`}
-                  >
-                    {post.status}
-                  </span>
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap">
-                  <button
-                    onClick={() => handleViewCountClick(post)}
-                    className="text-blue-600 hover:text-blue-900 font-semibold cursor-pointer"
-                    title="Click to view IP addresses"
-                  >
-                    {post.views_count || 0}
-                  </button>
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                  <button
-                    onClick={() => handleView(post)}
-                    className="text-blue-600 hover:text-blue-900 mr-3"
-                    title="View Details"
-                  >
-                    View
-                  </button>
-                  <button
-                    onClick={() => handleEdit(post)}
-                    className="text-amber-600 hover:text-amber-900 mr-3"
-                  >
-                    Edit
-                  </button>
-                  <button
-                    onClick={() => handleDelete(post.id)}
-                    className="text-red-600 hover:text-red-900"
-                  >
-                    Delete
-                  </button>
+            {posts.length === 0 ? (
+              <tr>
+                <td colSpan="5" className="px-6 py-8 text-center text-gray-500">
+                  No posts found
                 </td>
               </tr>
-            ))}
+            ) : (
+              posts.map((post) => (
+                <tr key={post.id} className="hover:bg-gray-50">
+                  <td className="px-6 py-4">
+                    <div 
+                      className="text-sm font-medium text-gray-900 cursor-pointer hover:text-amber-600 transition"
+                      onClick={() => handleView(post)}
+                      title="Click to view details"
+                    >
+                      {post.title}
+                    </div>
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap">
+                    <span className="text-sm text-gray-500">{post.category?.name || 'N/A'}</span>
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap">
+                    <span
+                      className={`px-2 py-1 text-xs rounded-full ${
+                        post.status === 'published'
+                          ? 'bg-green-100 text-green-800'
+                          : 'bg-gray-100 text-gray-800'
+                      }`}
+                    >
+                      {post.status}
+                    </span>
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap">
+                    <button
+                      onClick={() => handleViewCountClick(post)}
+                      className="text-blue-600 hover:text-blue-900 font-semibold cursor-pointer"
+                      title="Click to view IP addresses"
+                    >
+                      {post.views_count || 0}
+                    </button>
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                    <button
+                      onClick={() => handleView(post)}
+                      className="text-blue-600 hover:text-blue-900 mr-3"
+                      title="View Details"
+                    >
+                      View
+                    </button>
+                    <button
+                      onClick={() => handleEdit(post)}
+                      className="text-amber-600 hover:text-amber-900 mr-3"
+                    >
+                      Edit
+                    </button>
+                    <button
+                      onClick={() => handleDelete(post.id)}
+                      className="text-red-600 hover:text-red-900"
+                    >
+                      Delete
+                    </button>
+                  </td>
+                </tr>
+              ))
+            )}
           </tbody>
         </table>
+
+        {/* Pagination */}
+        {lastPage > 1 && (
+          <div className="bg-gray-50 px-6 py-3 flex items-center justify-between border-t border-gray-200">
+            <div className="text-sm text-gray-700">
+              Showing {posts.length > 0 ? ((currentPage - 1) * 10 + 1) : 0} to {Math.min(currentPage * 10, total)} of {total} posts
+            </div>
+            <div className="flex gap-2">
+              <button
+                onClick={() => setCurrentPage(prev => Math.max(1, prev - 1))}
+                disabled={currentPage === 1}
+                className="px-4 py-2 border border-gray-300 rounded-lg disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-100"
+              >
+                Previous
+              </button>
+              <button
+                onClick={() => setCurrentPage(prev => Math.min(lastPage, prev + 1))}
+                disabled={currentPage === lastPage}
+                className="px-4 py-2 border border-gray-300 rounded-lg disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-100"
+              >
+                Next
+              </button>
+            </div>
+          </div>
+        )}
       </div>
 
       {/* Modal */}

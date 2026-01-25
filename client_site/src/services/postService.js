@@ -1,7 +1,7 @@
 import api from './api';
 
 export const postService = {
-  getAll: () => api.get('/admin/posts'),
+  getAll: (params) => api.get('/admin/posts', { params }),
   getById: (id) => api.get(`/admin/posts/${id}`),
   create: (data) => api.post('/admin/posts', data),
   update: (id, data) => {

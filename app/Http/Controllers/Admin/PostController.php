@@ -31,12 +31,12 @@ class PostController extends Controller
     //     return response()->json(['data' => $posts]);
     // }
 
-    public function index()
+    public function index(Request $request)
 {
     $posts = Post::with('category')
         ->withCount('views')              // views_count
         ->latest()                        // ORDER BY created_at DESC
-        ->paginate(10);                   // 10 posts per page
+        ->paginate($request->get('per_page', 10));  // 10 posts per page (default)
 
     // Transform response data
     $posts->getCollection()->transform(function ($post) {
@@ -53,13 +53,10 @@ class PostController extends Controller
         'success' => true,
         'message' => 'Posts fetched successfully',
         'data' => $posts->items(),
-        'pagination' => [
-            'current_page' => $posts->currentPage(),
-            'per_page' => $posts->perPage(),
-            'total' => $posts->total(),
-            'last_page' => $posts->lastPage(),
-            'has_more_pages' => $posts->hasMorePages(),
-        ]
+        'current_page' => $posts->currentPage(),
+        'last_page' => $posts->lastPage(),
+        'per_page' => $posts->perPage(),
+        'total' => $posts->total(),
     ]);
 }
 

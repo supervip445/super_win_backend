@@ -23,23 +23,31 @@ class BannerTextSeeder extends Seeder
 
         $bannerTexts = [
             [
-                'text' => 'Welcome to SUPERWINLIVESTOCKGROUP SUPERWINLIVESTOCKGROUP Monastery - A place of peace, wisdom, and compassion',
+                'text' => 'Welcome to SUPERWINLIVESTOCKGROUP - Your trusted partner in livestock farming and premium feed solutions',
                 'is_active' => true,
             ],
             [
-                'text' => 'Join us for daily meditation sessions and weekly Dhamma talks - All are welcome',
+                'text' => 'High-quality pig and hen feed products - Supporting healthy and productive livestock for better farming',
                 'is_active' => true,
             ],
             [
-                'text' => 'Support our monastery through donations - Your generosity helps spread the teachings of the Buddha',
+                'text' => 'Premium livestock feed for pigs and hens - Boost your farm productivity with our nutritious feed solutions',
                 'is_active' => true,
             ],
             [
-                'text' => 'New Year Blessing Ceremony coming soon - Stay tuned for updates',
+                'text' => 'New product launch coming soon - Enhanced nutrition formula for faster growth and better health',
                 'is_active' => false,
             ],
             [
-                'text' => 'Weekly meditation schedule: Morning 6:00 AM - 7:00 AM, Evening 6:00 PM - 7:00 PM',
+                'text' => 'Business Hours: Monday - Saturday 8:00 AM - 6:00 PM | Contact us for inquiries about our feed products',
+                'is_active' => true,
+            ],
+            [
+                'text' => 'Expert advice on livestock farming and feed management - Consult with our team for optimal results',
+                'is_active' => true,
+            ],
+            [
+                'text' => 'Quality feed, quality livestock - Experience the difference with SUPERWINLIVESTOCKGROUP products',
                 'is_active' => true,
             ],
         ];

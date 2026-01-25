@@ -57,7 +57,7 @@ class PublicPostController extends Controller
     //     }
     // }
 
-    public function index()
+    public function index(Request $request)
 {
     try {
         $posts = Post::with('category')
@@ -77,7 +77,7 @@ class PublicPostController extends Controller
                 },
             ])
             ->latest()
-            ->paginate(10);
+            ->paginate($request->get('per_page', 10));
 
         // Transform data without breaking pagination
         $posts->getCollection()->transform(function ($post) {
@@ -94,13 +94,11 @@ class PublicPostController extends Controller
             'success' => true,
             'message' => 'Posts fetched successfully',
             'data' => $posts->items(),
-            'pagination' => [
-                'current_page' => $posts->currentPage(),
-                'per_page' => $posts->perPage(),
-                'total' => $posts->total(),
-                'last_page' => $posts->lastPage(),
-                'has_more_pages' => $posts->hasMorePages(),
-            ],
+            'current_page' => $posts->currentPage(),
+            'last_page' => $posts->lastPage(),
+            'per_page' => $posts->perPage(),
+            'total' => $posts->total(),
+            'has_more_pages' => $posts->hasMorePages(),
         ]);
 
     } catch (\Exception $e) {
