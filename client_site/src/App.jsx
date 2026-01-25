@@ -14,10 +14,12 @@ import Profile from './pages/admin/Profile';
 import Chat from './pages/admin/Chat';
 import PigVaccines from './pages/admin/PigVaccines';
 import LayerVaccines from './pages/admin/LayerVaccines';
+import Products from './pages/admin/Products';
 import Home from './pages/public/Home';
 import PostDetail from './pages/public/PostDetail';
 import PigVaccinesPublic from './pages/public/PigVaccines';
 import LayerVaccinesPublic from './pages/public/LayerVaccines';
+import ProductsPublic from './pages/public/Products';
 import Contact from './pages/public/Contact';
 import Register from './pages/public/Register';
 import PublicLogin from './pages/public/PublicLogin';
@@ -129,6 +131,16 @@ function App() {
               </ProtectedRoute>
             }
           />
+          <Route
+            path="/admin/products"
+            element={
+              <ProtectedRoute>
+                <AdminLayout>
+                  <Products />
+                </AdminLayout>
+              </ProtectedRoute>
+            }
+          />
           {/* Public Routes */}
           <Route path="/" element={<Home />} />
           <Route path="/register" element={<Register />} />
@@ -136,6 +148,7 @@ function App() {
           <Route path="/posts/:id" element={<PostDetail />} />
           <Route path="/pig-vaccines" element={<PigVaccinesPublic />} />
           <Route path="/layer-vaccines" element={<LayerVaccinesPublic />} />
+          <Route path="/products" element={<ProductsPublic />} />
           <Route path="/contact" element={<Contact />} />
           
           {/* Default redirect for unmatched routes */}

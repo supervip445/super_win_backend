@@ -21,6 +21,7 @@ const AdminLayout = ({ children }) => {
     { path: '/admin/categories', label: 'Categories', icon: '📁' },
     { path: '/admin/pig-vaccines', label: 'Pig Vaccines', icon: '💉' },
     { path: '/admin/layer-vaccines', label: 'Layer Vaccines', icon: '🐔' },
+    { path: '/admin/products', label: 'Products', icon: '💊' },
     { path: '/admin/contacts', label: 'Contacts', icon: '📧' },
     { path: '/admin/chat', label: 'User Chat', icon: '💬' },
     { path: '/admin/profile', label: 'Profile', icon: '👤' },

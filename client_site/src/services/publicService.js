@@ -24,5 +24,9 @@ export const publicService = {
   // Layer Vaccines
   getLayerVaccines: (params) => api.get('/public/layer-vaccines', { params }),
   getLayerVaccine: (id) => api.get(`/public/layer-vaccines/${id}`),
+  
+  // Products
+  getProducts: (params) => api.get('/public/products', { params }),
+  getProduct: (id) => api.get(`/public/products/${id}`),
 };
 

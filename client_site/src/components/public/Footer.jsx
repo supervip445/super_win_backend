@@ -13,6 +13,7 @@ const Footer = () => {
       { to: '/posts', label: 'Latest Posts' },
       { to: '/pig-vaccines', label: 'Pig Vaccines' },
       { to: '/layer-vaccines', label: 'Layer Vaccines' },
+      { to: '/products', label: 'Products' },
     ],
   };
 
