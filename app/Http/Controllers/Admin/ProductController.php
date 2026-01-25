@@ -69,7 +69,7 @@ class ProductController extends Controller
             'packaging' => 'nullable|string',
             'storage' => 'nullable|string',
             'special_features' => 'nullable|string',
-            'image' => 'nullable|image|max:2048',
+            'image' => 'nullable|image|max:256000', // 250MB in kilobytes (250 * 1024)
             'status' => 'required|in:active,inactive',
         ]);
 
@@ -126,7 +126,7 @@ class ProductController extends Controller
             'packaging' => 'nullable|string',
             'storage' => 'nullable|string',
             'special_features' => 'nullable|string',
-            'image' => 'nullable|image|max:2048',
+            'image' => 'nullable|image|max:256000', // 250MB in kilobytes (250 * 1024)
             'status' => 'required|in:active,inactive',
         ]);
 
