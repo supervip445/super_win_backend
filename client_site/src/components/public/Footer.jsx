@@ -12,6 +12,7 @@ const Footer = () => {
     resources: [
       { to: '/posts', label: 'Latest Posts' },
       { to: '/pig-vaccines', label: 'Pig Vaccines' },
+      { to: '/layer-vaccines', label: 'Layer Vaccines' },
     ],
   };
 

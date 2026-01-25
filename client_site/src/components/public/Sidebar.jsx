@@ -11,6 +11,7 @@ const Sidebar = () => {
     { to: '/', label: 'Home', icon: '🏠' },
     { to: '/posts', label: 'Posts', icon: '📝' },
     { to: '/pig-vaccines', label: 'Pig Vaccines', icon: '💉' },
+    { to: '/layer-vaccines', label: 'Layer Vaccines', icon: '🐔' },
     { to: '/contact', label: 'Contact', icon: '📧' },
   ];
 

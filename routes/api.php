@@ -18,6 +18,8 @@ use App\Http\Controllers\Admin\ViewController;
 use App\Http\Controllers\Admin\AdminChatController;
 use App\Http\Controllers\Admin\PigVaccineController;
 use App\Http\Controllers\Public\PublicPigVaccineController;
+use App\Http\Controllers\Admin\LayerVaccineController;
+use App\Http\Controllers\Public\PublicLayerVaccineController;
 use App\Http\Controllers\Public\PublicContactController;
 use App\Http\Controllers\Api\V1\Chat\AdminToUserChatController;
 
@@ -58,6 +60,10 @@ Route::prefix('public')->group(function () {
     // Pig Vaccines
     Route::get('/pig-vaccines', [PublicPigVaccineController::class, 'index']);
     Route::get('/pig-vaccines/{id}', [PublicPigVaccineController::class, 'show']);
+    
+    // Layer Vaccines
+    Route::get('/layer-vaccines', [PublicLayerVaccineController::class, 'index']);
+    Route::get('/layer-vaccines/{id}', [PublicLayerVaccineController::class, 'show']);
     
     // Contact Form
     Route::post('/contact', [PublicContactController::class, 'store']);
@@ -107,6 +113,9 @@ Route::prefix('admin')->group(function () {
         
         // Pig Vaccines
         Route::apiResource('pig-vaccines', PigVaccineController::class);
+        
+        // Layer Vaccines
+        Route::apiResource('layer-vaccines', LayerVaccineController::class);
         
         // Users (for teachers dropdown)
         Route::get('/users', [UserController::class, 'index']);

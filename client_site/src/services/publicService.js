@@ -20,5 +20,9 @@ export const publicService = {
   // Pig Vaccines
   getPigVaccines: (params) => api.get('/public/pig-vaccines', { params }),
   getPigVaccine: (id) => api.get(`/public/pig-vaccines/${id}`),
+  
+  // Layer Vaccines
+  getLayerVaccines: (params) => api.get('/public/layer-vaccines', { params }),
+  getLayerVaccine: (id) => api.get(`/public/layer-vaccines/${id}`),
 };
 
